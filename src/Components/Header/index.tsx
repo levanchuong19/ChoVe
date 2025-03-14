@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Dropdown,
@@ -14,10 +15,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import FormItem from "antd/es/form/FormItem";
+import api from "../../Config/api";
+
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/features/userSlice";
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isShowForm, setIsShowfrom] = useState(false);
+  const [user, setUser] = useState<string | null>();
   const [form] = useForm();
   const items: MenuProps["items"] = [
     {
@@ -29,6 +37,28 @@ function Header() {
       label: "Liên hệ chúng tôi",
     },
   ];
+
+  const handleLogin = async (value: any) => {
+    try {
+      const response = await api.post("login", value);
+      const { token, role, name } = response.data;
+      localStorage.setItem("token", token);
+      if (role == "ADMIN") {
+        navigate("/dashboard");
+      }
+      console.log("name", name);
+      setUser(name);
+      navigate("/");
+      setIsShowfrom(false);
+      // lưu trữ thông tin của user
+      // dispatch action
+      dispatch(login(response.data));
+      console.log("data", response.data);
+    } catch (err) {
+      console.log(err);
+      toast.error("Login faild");
+    }
+  };
 
   return (
     <div className="All_header">
@@ -70,21 +100,44 @@ function Header() {
             <Button onClick={() => navigate("retrieve/ongoing")} type="text">
               Đặt chỗ của tôi
             </Button>
-            <Button
-              style={{ color: "black" }}
-              onClick={() => setIsShowfrom(true)}
-              type="default"
-            >
-              <UserOutlined />
-              Đăng nhập
-            </Button>
-            <Button
-              style={{ color: "white" }}
-              type="primary"
-              onClick={() => setIsShowfrom(true)}
-            >
-              Đăng ký
-            </Button>
+            {user ? (
+              <div
+                style={{
+                  paddingTop: 2,
+                  display: "inline-block",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  width: "200px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-block",
+                    animation: "marquee 5s linear infinite",
+                  }}
+                >
+                  Xin chào, {user}
+                </span>
+              </div>
+            ) : (
+              <>
+                <Button
+                  style={{ color: "black" }}
+                  onClick={() => setIsShowfrom(true)}
+                  type="default"
+                >
+                  <UserOutlined />
+                  Đăng nhập
+                </Button>
+                <Button
+                  style={{ color: "white" }}
+                  type="primary"
+                  onClick={() => setIsShowfrom(true)}
+                >
+                  Đăng ký
+                </Button>
+              </>
+            )}
           </div>
         </nav>
         <Modal
@@ -97,7 +150,7 @@ function Header() {
           onCancel={() => setIsShowfrom(false)}
           footer={null}
         >
-          <Form form={form} layout="vertical">
+          <Form form={form} layout="vertical" onFinish={handleLogin}>
             <FormItem
             // label={
             //   <div style={{ color: "rgb(138, 138, 138)", fontSize: "17px" }}>
@@ -108,17 +161,27 @@ function Header() {
               <div style={{ color: "rgb(138, 138, 138)", fontSize: "17px" }}>
                 Email/Số điện thoại di động
               </div>
-              <Input
-                style={{ padding: "11px", fontSize: "17px" }}
-                placeholder="Nhập email hoặc số điện thoại"
-              />
+              <FormItem
+                name="email"
+                rules={[{ required: true, message: "Vui lòng không bỏ trống" }]}
+              >
+                <Input
+                  style={{ padding: "11px", fontSize: "17px" }}
+                  placeholder="Nhập email hoặc số điện thoại"
+                />
+              </FormItem>
               <div style={{ color: "rgb(138, 138, 138)", fontSize: "17px" }}>
                 Password
               </div>
-              <Input
-                style={{ padding: "11px", fontSize: "17px" }}
-                placeholder="Nhập email hoặc số điện thoại"
-              />
+              <FormItem
+                name="password"
+                rules={[{ required: true, message: "Vui lòng không bỏ trống" }]}
+              >
+                <Input.Password
+                  style={{ padding: "11px", fontSize: "17px" }}
+                  placeholder="Password"
+                />
+              </FormItem>
               <Button
                 style={{
                   marginTop: "18px",
@@ -129,6 +192,7 @@ function Header() {
                 }}
                 type="primary"
                 danger
+                htmlType="submit"
               >
                 Tiếp tục
               </Button>
