@@ -1,0 +1,106 @@
+// .All_header{
+//     background-color: cadetblue;
+// }
+
+.Header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    border-bottom: 1px solid rgb(203, 203, 203);
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    &.scrolled {
+        background-color: white;
+        color: black;
+
+        .header {
+            background-color: white;
+            color: black;
+
+            Button {
+                color: black;
+            }
+
+            .space {
+                color: black;
+            }
+        }
+    }
+    
+    // background-color: cadetblue;
+    .header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 300px;
+        padding: 10px;
+        background-color: transparent;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
+
+    &.scrolled {
+        background-color: white;
+        color: black;
+        Button{
+            color: black;
+            }
+            .space{
+                color: black;
+            }
+    }
+        &__left{
+            img{
+                max-width: 60px;
+                border-radius: 100px;
+            }
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            Button{
+                font-weight: bold;
+                font-size: 17px;
+                color: #fff
+                
+                }
+                .scrolled {
+        background-color: white;
+        color: black;
+        Button{
+            color: black;
+            }
+                           }
+    .space {
+        color: white;
+    }
+        };
+        &__right{
+            display: flex;
+            gap: 5px;
+            font-size: 20px;
+            Button{
+            font-weight: bold;
+            font-size: 16px;
+            color: #fff;
+            }
+        }
+    }
+}
+
+.FormLine{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+    color: rgb(138, 138, 138);
+    font-size: 16px;
+    .lineForm{
+        height: 2px ;
+        background-color: rgb(238, 238, 238);
+        width: 110px;
+    }
+}

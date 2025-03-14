@@ -1,0 +1,121 @@
+
+.BookTicket{
+    display: flex;
+    justify-content: center;
+    margin-top:  20px;
+    width: 100%;
+    justify-content: space-between;
+    &__ga{
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      width: 600px;
+      // gap: 10px;
+      align-items: center;
+      position: relative;
+      justify-content: center;
+      label{
+          font-size: 18px;
+          font-weight: 600;
+          color: rgb(255, 255, 255);
+          padding-right: 230px;
+      }
+    
+  }
+    &__Train{
+        display: flex;
+        padding-top: 30px;
+        width: 100%;
+        padding-right: 20px;
+    }
+    
+}
+
+.BookTicket__select {
+    .ant-select-selector {
+      background-color: transparent !important;
+      color: white !important;
+      border: 1px solid white !important;
+      font-size: 18px;
+       padding-top: 5px !important;
+    }
+  
+    .ant-select-arrow {
+      color: white !important;
+    }
+  
+    .ant-select-selection-item {
+      color: white !important;
+    }
+  }
+
+  .custom-date-picker {
+    display: flex;
+    align-items: center;
+    
+    .ant-picker {
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #fff;
+      color: #000;
+    }
+    .label{
+        font-size: 18px;
+        font-weight: 600;
+        color: rgb(255, 255, 255);
+        // padding-right: 100px;
+        // width: 400px;
+        // margin-bottom: 20px;
+    }
+  
+    .ant-picker-input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .ant-picker-dropdown {
+      .ant-picker-panel-container {
+        .ant-picker-panel {
+          .ant-picker-header {
+            .ant-picker-header-view {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+          }
+  
+          .ant-picker-body {
+            .ant-picker-content {
+              .ant-picker-cell {
+                .ant-picker-cell-inner {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 50%;
+                  transition: background-color 0.3s, color 0.3s;
+  
+                  &:hover {
+                    background-color: #f0f0f0;
+                  }
+  
+                  &.ant-picker-cell-today {
+                    border: 1px solid #1890ff;
+                  }
+  
+                  &.ant-picker-cell-selected {
+                    background-color: #1890ff;
+                    color: #fff;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

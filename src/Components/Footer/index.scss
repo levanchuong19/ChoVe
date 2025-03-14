@@ -1,0 +1,30 @@
+.Footer{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(24, 61, 82);
+}
+.footer{
+    display: flex;
+    gap: 280px;
+    padding: 40px 50px 20px 50px;
+    border-bottom: 2px solid rgb(255, 255, 255); 
+    margin-bottom: 40px;
+    .img{
+        max-width: 90px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+    ul{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        font-size: 18px;
+        h4{
+            color: #fff;
+        }
+        li{
+            list-style: none;
+            color: rgb(182, 181, 181);
+        }
+    }
+}
