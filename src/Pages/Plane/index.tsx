@@ -1,5 +1,5 @@
 import { DownOutlined, SwapOutlined, UserOutlined } from "@ant-design/icons";
-import { Seat } from "@phosphor-icons/react";
+import { AirplaneLanding, AirplaneTakeoff, Seat } from "@phosphor-icons/react";
 import {
   Button,
   Checkbox,
@@ -11,9 +11,11 @@ import {
 } from "antd";
 import locale from "antd/es/date-picker/locale/en_US";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import "./index.scss";
+import api from "../../Config/api";
+import { Airports } from "../../Model/airports";
 
 const { Option } = Select;
 function PlaneTrip() {
@@ -22,6 +24,7 @@ function PlaneTrip() {
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isAirport, setIsAirport] = useState<Airports[]>();
 
   const summary = `${adults} Người lớn, ${children} Trẻ em, ${infants} Em bé`;
   const handleDropdownVisibleChange = (visible: boolean) => {
@@ -204,12 +207,28 @@ function PlaneTrip() {
     setTo(from);
   };
 
-  const airports = [
-    { code: "SGN", name: "TP HCM (SGN)" },
-    { code: "VII", name: "Vinh (VII)" },
-    { code: "HAN", name: "Hà Nội (HAN)" },
-    { code: "DAD", name: "Đà Nẵng (DAD)" },
-  ];
+  // const airports = [
+  //   { code: "SGN", name: "TP HCM (SGN)" },
+  //   { code: "VII", name: "Vinh (VII)" },
+  //   { code: "HAN", name: "Hà Nội (HAN)" },
+  //   { code: "DAD", name: "Đà Nẵng (DAD)" },
+  // ];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const fetchAirports = async () => {
+    try {
+      const response = await api.get("airports");
+      console.log("data airports", response.data);
+      setIsAirport(response.data);
+    } catch (error) {
+      console.log("error reo", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAirports();
+  }, []);
+
   const [isChooseTrip, setIsChooseTrip] = useState(true);
   // const [isChoose, setIsChoose] = useState(true);
   const [isRoundTrip, setIsRoundTrip] = useState(true);
@@ -353,11 +372,16 @@ function PlaneTrip() {
               suffixIcon={null} // ẩn icon mặc định của antd
               value={from}
               onChange={(value) => setFrom(value)}
-              style={{ width: 270, height: "50px" }}
+              style={{ width: 290, height: "50px", gap: 20 }}
             >
-              {airports.map((airport) => (
-                <Option key={airport.code} value={airport.name}>
-                  {airport.name}
+              {isAirport?.map((airport: Airports) => (
+                <Option key={airport.id} value={airport.name}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 10 }}
+                  >
+                    <AirplaneTakeoff size={20} />
+                    <strong>{airport.name}</strong>
+                  </div>
                 </Option>
               ))}
             </Select>
@@ -382,13 +406,23 @@ function PlaneTrip() {
               value={to}
               onChange={(value) => setTo(value)}
               style={{
-                width: 270,
+                width: 290,
                 height: "50px",
               }}
             >
-              {airports.map((airport) => (
-                <Option key={airport.code} value={airport.name}>
-                  {airport.name}
+              {isAirport?.map((airport) => (
+                <Option key={airport.id} value={airport.name}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      marginLeft: 20,
+                    }}
+                  >
+                    <AirplaneLanding size={20} />
+                    <strong>{airport.name}</strong>
+                  </div>
                 </Option>
               ))}
             </Select>
